@@ -5,11 +5,27 @@ namespace ProjectFactory.Movement
 {
     public class CameraMovement : MonoBehaviour
     {
-        public Transform player;
-        public float offsetY = 0.75f;
+        public float mouseSensitivity = 100f;
+        public Transform playerBody;
+
+        float xRotation = 0f;
+
+        void Start()
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+
         void Update()
         {
-            transform.position = player.transform.position + new Vector3(0f, offsetY, 0f);
+            float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.fixedDeltaTime;
+            float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.fixedDeltaTime;
+
+            xRotation -= mouseY;
+            xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+
+            transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+
+            playerBody.Rotate(Vector3.up * mouseX);
         }
     }
 }
