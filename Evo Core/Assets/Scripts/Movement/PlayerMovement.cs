@@ -51,11 +51,6 @@ namespace ProjectFactory.Movement
             /*
             Transform camTransform = CameraController.singleton.transform;
             forward = camTransform.position + camTransform.forward * dropRange;
-
-            if (PlayerUI.singleton.isNotOnWorld)
-            {
-                return;
-            }
             */
 
             GetInputs();

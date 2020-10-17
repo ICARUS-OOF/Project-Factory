@@ -5,27 +5,30 @@ namespace ProjectFactory.Movement
 {
     public class CameraMovement : MonoBehaviour
     {
-        public float mouseSensitivity = 100f;
-        public Transform playerBody;
+        Rigidbody rb;
+        Quaternion deltaRotation;
 
-        float xRotation = 0f;
+        public float mouseSensitivity = 70f;
 
-        void Start()
+        float mouseX;
+        float mouseY;
+        private void Start()
         {
-            Cursor.lockState = CursorLockMode.Locked;
+            rb = GetComponent<Rigidbody>();
         }
-
-        void Update()
+        private void Update()
         {
-            float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.fixedDeltaTime;
-            float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.fixedDeltaTime;
-
-            xRotation -= mouseY;
-            xRotation = Mathf.Clamp(xRotation, -90f, 90f);
-
-            transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-
-            playerBody.Rotate(Vector3.up * mouseX);
+            GetInputs();
+        }
+        private void FixedUpdate()
+        {
+            deltaRotation = Quaternion.Euler(Vector3.up * mouseX * mouseSensitivity *  Time.fixedDeltaTime);
+            rb.MoveRotation(rb.rotation * deltaRotation);
+        }
+        void GetInputs()
+        {
+            mouseX = Input.GetAxis("Mouse X");
+            mouseY = Input.GetAxis("Mouse Y");
         }
     }
 }
